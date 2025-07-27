@@ -21,11 +21,11 @@ for feat in categorical_features:
 # Create interaction features
 df['Energy_Mix'] = (df['Electricity'] / (df['FossilFuels'] + df['Renewables'] + 1e-8)).astype(np.float32)
 df['Waste_Ratio'] = (df['RecycledWaste'] / (df['LandfillWaste'] + df['CompostedWaste'] + 1e-8)).astype(np.float32)
-df['GHG_Intensity'] = ((df['CH4'] * 25 + df['N2O'] * 298) / (df['CO2'] + 1e-8)).astype(np.float32)
+
 
 # Select Features & Target
 features = ([f'{feat}_encoded' for feat in categorical_features] + 
-           numerical_features + ['Energy_Mix', 'Waste_Ratio', 'GHG_Intensity'])
+           numerical_features + ['Energy_Mix', 'Waste_Ratio'])
 target = 'CO2'
 
 # Convert to numpy arrays with explicit dtype
@@ -40,6 +40,17 @@ def robust_normalize(data):
 
 X_normalized, X_mean, X_std = robust_normalize(X)
 y_normalized, y_mean, y_std = robust_normalize(y)
+
+# Save normalization parameters
+normalization_params = {
+    'X_mean': X_mean,
+    'X_std': X_std,
+    'y_mean': y_mean,
+    'y_std': y_std,
+    'features': features # Save feature names to ensure correct order
+}
+joblib.dump(normalization_params, 'normalization_params.pkl')
+print("Normalization parameters saved to normalization_params.pkl")
 
 # Train-Validation-Test Split
 np.random.seed(42)
