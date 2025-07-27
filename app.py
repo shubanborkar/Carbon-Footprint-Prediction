@@ -11,7 +11,7 @@ warnings.filterwarnings('ignore')
 # --- Page configuration and Custom CSS ---
 st.set_page_config(
     page_title="CO2 Emissions Predictor",
-    page_icon="�",
+    page_icon="🌍",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -276,14 +276,23 @@ def run_app():
         # Get the maximum year from the dataset
         max_data_year = df_base['Year'].max()
         # Create a list of years including historical and future years (e.g., up to 5 years beyond max_data_year)
-        future_years_range = range(max_data_year + 1, max_data_year + 6) # Extend 5 years into the future
+        # Ensure future_years_range is always a list for concatenation
+        future_years_range = list(range(max_data_year + 1, max_data_year + 6)) 
         
         # Combine historical filtered years with future years
-        combined_years = sorted(list(set(filtered_years + list(future_years_range))))
+        # Ensure filtered_years is a list before concatenation
+        combined_years = sorted(list(set(list(filtered_years) + future_years_range)))
         
         # Set default index for the year selectbox to the latest year in the dataset, if available
         default_year_index = combined_years.index(max_data_year) if max_data_year in combined_years else 0
-        year = st.selectbox("Year", combined_years, index=default_year_index, key="year_select")
+        
+        # Handle case where combined_years might be empty (e.g., if no historical data and no future range generated)
+        if not combined_years:
+            st.error("No valid years available for selection. Please check your data.")
+            year = None # Or set a default value that indicates an error
+        else:
+            year = st.selectbox("Year", combined_years, index=default_year_index, key="year_select")
+
 
     with col2:
         ch4 = st.number_input("CH4 (Methane Emissions)", min_value=0.0, value=20.0, step=0.1)
@@ -298,8 +307,8 @@ def run_app():
     # Prediction Button
     if st.button("🔮 Predict CO2 Emission", key="predict_button"):
         # Ensure all necessary inputs are selected before proceeding
-        if company_id is None:
-            st.error("Please select a valid Company Name and ensure a Company ID is available.")
+        if company_id is None or year is None: # Added year check
+            st.error("Please ensure all input fields are selected.")
             return
 
         # Create a DataFrame for the single input
