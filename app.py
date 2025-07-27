@@ -255,12 +255,8 @@ def run_app():
         # Filter Company IDs based on selected Company Name
         filtered_company_ids = sorted(df_base[df_base['CompanyName'] == company_name]['CompanyID'].unique().tolist())
         # If there's only one ID, default to it. Otherwise, let user choose.
-        default_company_id_index = 0 if len(filtered_company_ids) > 0 else None
-        if default_company_id_index is not None:
-            company_id = st.selectbox("Company ID", filtered_company_ids, index=default_company_id_index, key="company_id_select")
-        else:
-            company_id = None # Handle case where no company ID is found (shouldn't happen with valid data)
-            st.warning("No Company ID found for the selected Company Name.")
+        default_company_id_index = 0 if len(filtered_company_ids) > 0 else 0 # Default to 0 even if empty, will be handled by check
+        company_id = st.selectbox("Company ID", filtered_company_ids, index=default_company_id_index, key="company_id_select")
 
 
         # Filter sectors based on selected Company Name
@@ -273,22 +269,30 @@ def run_app():
         location = st.selectbox("Location", filtered_locations, key="location_select")
         
         # Filter years based on selected Company Name, Sector, and Location
+        filtered_years_historical = sorted(df_base[(df_base['CompanyName'] == company_name) & 
+                                                    (df_base['Sector'] == sector) &
+                                                    (df_base['Location'] == location)]['Year'].unique().tolist())
+        
         # Get the maximum year from the dataset
         max_data_year = df_base['Year'].max()
+        
         # Create a list of years including historical and future years (e.g., up to 5 years beyond max_data_year)
         # Ensure future_years_range is always a list for concatenation
         future_years_range = list(range(max_data_year + 1, max_data_year + 6)) 
         
         # Combine historical filtered years with future years
-        # Ensure filtered_years is a list before concatenation
-        combined_years = sorted(list(set(list(filtered_years) + future_years_range)))
+        combined_years = sorted(list(set(filtered_years_historical + future_years_range)))
         
         # Set default index for the year selectbox to the latest year in the dataset, if available
-        default_year_index = combined_years.index(max_data_year) if max_data_year in combined_years else 0
+        default_year_index = 0
+        if max_data_year in combined_years:
+            default_year_index = combined_years.index(max_data_year)
+        elif combined_years: # If max_data_year not in combined, but combined_years is not empty, default to first
+            default_year_index = 0
         
         # Handle case where combined_years might be empty (e.g., if no historical data and no future range generated)
         if not combined_years:
-            st.error("No valid years available for selection. Please check your data.")
+            st.error("No valid years available for selection. Please check your data or selected filters.")
             year = None # Or set a default value that indicates an error
         else:
             year = st.selectbox("Year", combined_years, index=default_year_index, key="year_select")
