@@ -108,8 +108,8 @@ st.markdown("""
     }
     .stButton > button:hover {
         transform: translateY(-3px); /* More pronounced lift */
-        box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-        background: linear-gradient(90deg, #4CAF50, #2E7D32); /* Slightly darker on hover */
+        box_shadow: 0 6px 12px rgba(0,0,0,0.4);
+        background: linear_gradient(90deg, #4CAF50, #2E7D32); /* Slightly darker on hover */
     }
 
     .sidebar .stSelectbox, .sidebar .stNumberInput, .sidebar .stSlider {
@@ -117,7 +117,7 @@ st.markdown("""
         background-color: #2C2C2C; /* Slightly lighter dark for inputs */
         border-radius: 8px;
         padding: 0.5rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        box_shadow: 0 2px 4px rgba(0,0,0,0.15);
         color: #F8F8F8; /* Brighter text for input fields */
     }
     /* Ensure text within selectbox, number input, slider is visible */
@@ -252,6 +252,7 @@ def run_app():
     model, X_mean, X_std, y_mean, y_std = load_model_and_params()
 
     st.markdown('<h1 class="main-header">🌍 Carbon Footprint Prediction</h1>', unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #CCCCCC; font-size: 1.1rem;'>By Shuban Borkar</p>", unsafe_allow_html=True) # Added By Shuban Borkar
     st.markdown("### Predict CO2 emissions based on company environmental data using Neural Networks")
 
     st.header("Input Parameters")
