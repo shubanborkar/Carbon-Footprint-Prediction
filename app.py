@@ -22,29 +22,29 @@ st.markdown("""
 
     html, body, [class*="st-"] {
         font-family: 'Inter', sans-serif;
-        color: #E0E0E0; /* Lighter text for dark background */
+        color: #F8F8F8; /* Brighter text for dark background */
     }
 
     .main-header {
         font-size: 3.2rem; /* Slightly larger */
         font-weight: 700; /* Bolder */
         text-align: center;
-        color: #90CAF9; /* A lighter blue for contrast */
+        color: #BBDEFB; /* A brighter blue for contrast */
         margin-bottom: 2.5rem;
-        text-shadow: 2px 2px 6px rgba(0,0,0,0.3); /* More pronounced shadow */
+        text-shadow: 2px 2px 6px rgba(0,0,0,0.4); /* More pronounced shadow */
     }
     
     .stApp {
-        background-color: #26272B; /* Dark grey background for the app */
+        background-color: #1A1A1A; /* Even darker grey background for the app */
     }
 
     .metric-card {
-        background: linear-gradient(135deg, #424242 0%, #212121 100%); /* Dark grey gradient */
+        background: linear-gradient(135deg, #333333 0%, #1F1F1F 100%); /* Darker grey gradient */
         padding: 1.2rem;
         border-radius: 12px; /* Slightly less rounded */
-        color: white;
+        color: white; /* Keep white for metric values */
         text-align: center;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.3); /* Softer, larger shadow */
+        box-shadow: 0 6px 12px rgba(0,0,0,0.4); /* Softer, larger shadow */
         transition: transform 0.2s ease-in-out;
     }
     .metric-card:hover {
@@ -54,32 +54,35 @@ st.markdown("""
         font-size: 1.1rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
+        color: #E0E0E0; /* Slightly lighter for sub-headers */
     }
     .metric-card h2 {
         font-size: 2.2rem;
         font-weight: 700;
         margin-bottom: 0.2rem;
+        color: #FFFFFF; /* Pure white for main value */
     }
     .metric-card p {
         font-size: 0.9rem;
-        opacity: 0.9;
+        opacity: 0.85; /* Slightly less opaque for secondary text */
+        color: #CCCCCC;
     }
 
     .prediction-card {
-        background: linear-gradient(135deg, #66BB6A 0%, #388E3C 100%); /* Green gradient */
+        background: linear-gradient(135deg, #8BC34A 0%, #558B2F 100%); /* Brighter green gradient */
         padding: 2.5rem;
         border-radius: 15px;
         color: white;
         text-align: center;
         font-size: 1.8rem; /* Larger font for prediction */
         font-weight: 700;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.4); /* More prominent shadow */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5); /* More prominent shadow */
         margin-top: 2rem;
         margin-bottom: 2rem;
     }
 
     .stButton > button {
-        background: linear-gradient(90deg, #4CAF50, #2E7D32); /* Darker green gradient */
+        background: linear-gradient(90deg, #66BB6A, #388E3C); /* Brighter green gradient for button */
         color: white;
         border-radius: 30px; /* More rounded */
         border: none;
@@ -88,29 +91,29 @@ st.markdown("""
         font-size: 1.2rem; /* Slightly larger font */
         letter-spacing: 0.5px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
     .stButton > button:hover {
         transform: translateY(-3px); /* More pronounced lift */
-        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-        background: linear-gradient(90deg, #45a049, #28602A); /* Slightly darker on hover */
+        box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        background: linear-gradient(90deg, #4CAF50, #2E7D32); /* Slightly darker on hover */
     }
 
     .sidebar .stSelectbox, .sidebar .stNumberInput, .sidebar .stSlider {
         margin-bottom: 1.2rem; /* More spacing in sidebar */
-        background-color: #333333; /* Darker background for inputs */
+        background-color: #2C2C2C; /* Slightly lighter dark for inputs */
         border-radius: 8px;
         padding: 0.5rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        color: #E0E0E0; /* Lighter text for input fields */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        color: #F8F8F8; /* Brighter text for input fields */
     }
     /* Ensure text within selectbox, number input, slider is visible */
     .st-bw .stSelectbox > div > div, .st-bw .stNumberInput > div > div, .st-bw .stSlider > div > div {
-        color: #E0E0E0;
+        color: #F8F8F8; /* Ensure input text is bright */
     }
 
     h1, h2, h3, h4, h5, h6 {
-        color: #E0E0E0; /* Lighter grey for headers */
+        color: #F8F8F8; /* Brighter grey for headers */
         font-weight: 600;
     }
     .stInfo, .stSuccess {
@@ -119,18 +122,26 @@ st.markdown("""
         font-size: 0.95rem;
     }
     .stInfo {
-        background-color: #3F51B5; /* Darker blue for info */
-        color: #BBDEFB; /* Lighter text for info */
-        border-left: 5px solid #BBDEFB;
+        background-color: #283593; /* Darker, more saturated blue for info */
+        color: #E8EAF6; /* Brighter text for info */
+        border-left: 5px solid #BBDEFB; /* Keep a lighter border */
     }
     .stSuccess {
-        background-color: #388E3C; /* Darker green for success */
-        color: #C8E6C9; /* Lighter text for success */
-        border-left: 5px solid #C8E6C9;
+        background-color: #2E7D32; /* Darker, more saturated green for success */
+        color: #E8F5E9; /* Brighter text for success */
+        border-left: 5px solid #C8E6C9; /* Keep a lighter border */
     }
     /* Adjust expander header color for dark theme */
     .st-emotion-cache-1ft042y { /* This class targets the expander header */
-        color: #E0E0E0;
+        color: #F8F8F8; /* Ensure expander header text is bright */
+    }
+    /* Adjust text color for selectbox options */
+    .st-emotion-cache-1n76tmr { /* This targets the options in the dropdown */
+        color: #F8F8F8;
+        background-color: #2C2C2C;
+    }
+    .st-emotion-cache-1n76tmr:hover {
+        background-color: #444444; /* Darker hover for options */
     }
 </style>
 """, unsafe_allow_html=True)
