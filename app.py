@@ -224,19 +224,25 @@ def run_app():
     st.header("Input Parameters")
 
     # Create unique lists for categorical features from the loaded DataFrame
-    company_ids = sorted(df_base['CompanyID'].unique().tolist())
-    company_names = sorted(df_base['CompanyName'].unique().tolist())
+    all_company_names = sorted(df_base['CompanyName'].unique().tolist())
     
-    # --- Dependent Dropdowns Logic ---
+    # --- Dependent Dropdowns Logic (Company Name as primary filter) ---
     col1, col2 = st.columns(2)
 
     with col1:
-        company_id = st.selectbox("Company ID", company_ids, key="company_id_select")
+        company_name = st.selectbox("Company Name", all_company_names, key="company_name_select")
         
-        # Filter company names based on selected Company ID
-        filtered_company_names = sorted(df_base[df_base['CompanyID'] == company_id]['CompanyName'].unique().tolist())
-        company_name = st.selectbox("Company Name", filtered_company_names, key="company_name_select")
-        
+        # Filter Company IDs based on selected Company Name
+        filtered_company_ids = sorted(df_base[df_base['CompanyName'] == company_name]['CompanyID'].unique().tolist())
+        # If there's only one ID, default to it. Otherwise, let user choose.
+        default_company_id_index = 0 if len(filtered_company_ids) > 0 else None
+        if default_company_id_index is not None:
+            company_id = st.selectbox("Company ID", filtered_company_ids, index=default_company_id_index, key="company_id_select")
+        else:
+            company_id = None # Handle case where no company ID is found (shouldn't happen with valid data)
+            st.warning("No Company ID found for the selected Company Name.")
+
+
         # Filter sectors based on selected Company Name
         filtered_sectors = sorted(df_base[df_base['CompanyName'] == company_name]['Sector'].unique().tolist())
         sector = st.selectbox("Sector", filtered_sectors, key="sector_select")
@@ -264,6 +270,11 @@ def run_app():
 
     # Prediction Button
     if st.button("🔮 Predict CO2 Emission", key="predict_button"):
+        # Ensure all necessary inputs are selected before proceeding
+        if company_id is None:
+            st.error("Please select a valid Company Name and ensure a Company ID is available.")
+            return
+
         # Create a DataFrame for the single input
         input_data = pd.DataFrame([[
             company_id, company_name, sector, location, year,
