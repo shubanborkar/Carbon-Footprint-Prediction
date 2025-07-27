@@ -111,9 +111,11 @@ plotly
 
 Feel free to fork this repository, open issues, or submit pull requests for any improvements or bug fixes.
 
-## 📧 Contact
+## Contact
 
-Shuban Borkar
-Connect with me on [LinkedIn/GitHub Profile Link if you have one!]
+**Shuban Borkar**  
+Email: [shubanborkar@gmail.com](mailto:shubanborkar@gmail.com)  
+LinkedIn: [shuban-borkar](https://www.linkedin.com/in/shuban-borkar)  
+GitHub: [shubanborkar](https://github.com/shubanborkar)
 
 ---
