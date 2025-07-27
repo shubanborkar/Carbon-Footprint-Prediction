@@ -22,29 +22,29 @@ st.markdown("""
 
     html, body, [class*="st-"] {
         font-family: 'Inter', sans-serif;
-        color: #333; /* Darker text for better readability */
+        color: #E0E0E0; /* Lighter text for dark background */
     }
 
     .main-header {
         font-size: 3.2rem; /* Slightly larger */
         font-weight: 700; /* Bolder */
         text-align: center;
-        color: #1E88E5; /* A fresh blue */
+        color: #90CAF9; /* A lighter blue for contrast */
         margin-bottom: 2.5rem;
-        text-shadow: 2px 2px 6px rgba(0,0,0,0.15); /* More pronounced shadow */
+        text-shadow: 2px 2px 6px rgba(0,0,0,0.3); /* More pronounced shadow */
     }
     
     .stApp {
-        background-color: #f0f2f6; /* Light grey background for the app */
+        background-color: #26272B; /* Dark grey background for the app */
     }
 
     .metric-card {
-        background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%); /* Blue gradient */
+        background: linear-gradient(135deg, #424242 0%, #212121 100%); /* Dark grey gradient */
         padding: 1.2rem;
         border-radius: 12px; /* Slightly less rounded */
         color: white;
         text-align: center;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Softer, larger shadow */
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3); /* Softer, larger shadow */
         transition: transform 0.2s ease-in-out;
     }
     .metric-card:hover {
@@ -66,14 +66,14 @@ st.markdown("""
     }
 
     .prediction-card {
-        background: linear-gradient(135deg, #81c784 0%, #4caf50 100%); /* Green gradient */
+        background: linear-gradient(135deg, #66BB6A 0%, #388E3C 100%); /* Green gradient */
         padding: 2.5rem;
         border-radius: 15px;
         color: white;
         text-align: center;
         font-size: 1.8rem; /* Larger font for prediction */
         font-weight: 700;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.25); /* More prominent shadow */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.4); /* More prominent shadow */
         margin-top: 2rem;
         margin-bottom: 2rem;
     }
@@ -98,14 +98,19 @@ st.markdown("""
 
     .sidebar .stSelectbox, .sidebar .stNumberInput, .sidebar .stSlider {
         margin-bottom: 1.2rem; /* More spacing in sidebar */
-        background-color: #ffffff; /* White background for inputs */
+        background-color: #333333; /* Darker background for inputs */
         border-radius: 8px;
         padding: 0.5rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        color: #E0E0E0; /* Lighter text for input fields */
+    }
+    /* Ensure text within selectbox, number input, slider is visible */
+    .st-bw .stSelectbox > div > div, .st-bw .stNumberInput > div > div, .st-bw .stSlider > div > div {
+        color: #E0E0E0;
     }
 
     h1, h2, h3, h4, h5, h6 {
-        color: #424242; /* Dark grey for headers */
+        color: #E0E0E0; /* Lighter grey for headers */
         font-weight: 600;
     }
     .stInfo, .stSuccess {
@@ -114,14 +119,18 @@ st.markdown("""
         font-size: 0.95rem;
     }
     .stInfo {
-        background-color: #e3f2fd; /* Light blue for info */
-        color: #1e88e5;
-        border-left: 5px solid #1e88e5;
+        background-color: #3F51B5; /* Darker blue for info */
+        color: #BBDEFB; /* Lighter text for info */
+        border-left: 5px solid #BBDEFB;
     }
     .stSuccess {
-        background-color: #e8f5e9; /* Light green for success */
-        color: #4caf50;
-        border-left: 5px solid #4caf50;
+        background-color: #388E3C; /* Darker green for success */
+        color: #C8E6C9; /* Lighter text for success */
+        border-left: 5px solid #C8E6C9;
+    }
+    /* Adjust expander header color for dark theme */
+    .st-emotion-cache-1ft042y { /* This class targets the expander header */
+        color: #E0E0E0;
     }
 </style>
 """, unsafe_allow_html=True)
