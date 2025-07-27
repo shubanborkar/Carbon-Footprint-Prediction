@@ -68,8 +68,8 @@ st.markdown("""
         color: #CCCCCC;
     }
 
+    /* Prediction Card - Base Style */
     .prediction-card {
-        background: linear-gradient(135deg, #8BC34A 0%, #558B2F 100%); /* Brighter green gradient */
         padding: 2.5rem;
         border-radius: 15px;
         color: white;
@@ -79,7 +79,20 @@ st.markdown("""
         box-shadow: 0 10px 20px rgba(0,0,0,0.5); /* More prominent shadow */
         margin-top: 2rem;
         margin-bottom: 2rem;
+        transition: background 0.5s ease-in-out; /* Smooth transition for color change */
     }
+
+    /* Prediction Card - Color Coded Styles */
+    .low-impact-card {
+        background: linear-gradient(135deg, #8BC34A 0%, #558B2F 100%); /* Brighter green gradient */
+    }
+    .medium-impact-card {
+        background: linear-gradient(135deg, #FFD54F 0%, #FFA000 100%); /* Orange/Yellow gradient */
+    }
+    .high-impact-card {
+        background: linear-gradient(135deg, #EF5350 0%, #D32F2F 100%); /* Red gradient */
+    }
+
 
     .stButton > button {
         background: linear-gradient(90deg, #66BB6A, #388E3C); /* Brighter green gradient for button */
@@ -255,7 +268,7 @@ def run_app():
         # Filter Company IDs based on selected Company Name
         filtered_company_ids = sorted(df_base[df_base['CompanyName'] == company_name]['CompanyID'].unique().tolist())
         # If there's only one ID, default to it. Otherwise, let user choose.
-        default_company_id_index = 0 if len(filtered_company_ids) > 0 else 0 # Default to 0 even if empty, will be handled by check
+        default_company_id_index = 0 if len(filtered_company_ids) > 0 else 0 
         company_id = st.selectbox("Company ID", filtered_company_ids, index=default_company_id_index, key="company_id_select")
 
 
@@ -277,7 +290,6 @@ def run_app():
         max_data_year = df_base['Year'].max()
         
         # Create a list of years including historical and future years (e.g., up to 5 years beyond max_data_year)
-        # Ensure future_years_range is always a list for concatenation
         future_years_range = list(range(max_data_year + 1, max_data_year + 6)) 
         
         # Combine historical filtered years with future years
@@ -287,13 +299,13 @@ def run_app():
         default_year_index = 0
         if max_data_year in combined_years:
             default_year_index = combined_years.index(max_data_year)
-        elif combined_years: # If max_data_year not in combined, but combined_years is not empty, default to first
+        elif combined_years: 
             default_year_index = 0
         
-        # Handle case where combined_years might be empty (e.g., if no historical data and no future range generated)
+        # Handle case where combined_years might be empty
         if not combined_years:
             st.error("No valid years available for selection. Please check your data or selected filters.")
-            year = None # Or set a default value that indicates an error
+            year = None 
         else:
             year = st.selectbox("Year", combined_years, index=default_year_index, key="year_select")
 
@@ -311,7 +323,7 @@ def run_app():
     # Prediction Button
     if st.button("🔮 Predict CO2 Emission", key="predict_button"):
         # Ensure all necessary inputs are selected before proceeding
-        if company_id is None or year is None: # Added year check
+        if company_id is None or year is None: 
             st.error("Please ensure all input fields are selected.")
             return
 
@@ -356,9 +368,24 @@ def run_app():
         predicted_co2 = predicted_normalized * y_std + y_mean
 
         st.subheader("Prediction Result")
+        
+        # Determine the color class based on predicted CO2
+        co2_value = predicted_co2[0][0]
+        co2_values_for_thresholds = df_base['CO2'].values
+        q25 = np.percentile(co2_values_for_thresholds, 25)
+        q75 = np.percentile(co2_values_for_thresholds, 75)
+
+        impact_class = ""
+        if co2_value < q25:
+            impact_class = "low-impact-card"
+        elif q25 <= co2_value <= q75:
+            impact_class = "medium-impact-card"
+        else:
+            impact_class = "high-impact-card"
+
         st.markdown(f"""
-        <div class="prediction-card">
-            Predicted CO2 Emissions: {predicted_co2[0][0]:.2f} tons
+        <div class="prediction-card {impact_class}">
+            Predicted CO2 Emissions: {co2_value:.2f} tons
         </div>
         """, unsafe_allow_html=True)
 
