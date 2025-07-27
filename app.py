@@ -429,12 +429,16 @@ def run_app():
     """)
 
     st.markdown("### 📋 Emission Categories")
-    st.markdown("""
-    **Low Impact:** < 1000 tons CO2
-
-    **Medium Impact:** 1000-3000 tons CO2
-
-    **High Impact:** > 3000 tons CO2
+    # Dynamically determine categories based on actual data distribution
+    co2_values = df_base['CO2'].values
+    q25 = np.percentile(co2_values, 25)
+    q75 = np.percentile(co2_values, 75)
+    
+    st.markdown(f"""
+    Based on your dataset's CO2 distribution:
+    - **Low Impact:** < {q25:.2f} tons CO2
+    - **Medium Impact:** {q25:.2f} - {q75:.2f} tons CO2
+    - **High Impact:** > {q75:.2f} tons CO2
     """)
 
     st.markdown("### 🌱 Sustainability Tips")
